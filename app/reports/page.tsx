@@ -7,7 +7,7 @@ import { callAdmin, fmtDate } from "@/lib/api";
 
 type ReportRow = {
   id: string; headline: string | null; created_at: string;
-  client_name: string | null; client_phone: string | null;
+  client_name: string | null; client_phone: string | null; linked_with_advisor: boolean;
 };
 
 export default function ReportsPage() {
@@ -26,11 +26,12 @@ export default function ReportsPage() {
       {rows && rows.length === 0 && <p className="muted">No reports yet.</p>}
       {rows && rows.length > 0 && (
         <table>
-          <thead><tr><th>Client</th><th>Report</th><th>Created</th></tr></thead>
+          <thead><tr><th>Client</th><th>Linked advisor</th><th>Report</th><th>Created</th></tr></thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.id}>
                 <td>{r.client_name ?? (r.client_phone ? `No name · ${r.client_phone}` : "—")}</td>
+                <td>{r.linked_with_advisor ? <span className="tag good">Linked</span> : <span className="tag">Not linked</span>}</td>
                 <td><Link href={`/reports/${r.id}`}>{r.headline ?? "Report"}</Link></td>
                 <td>{fmtDate(r.created_at)}</td>
               </tr>

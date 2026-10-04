@@ -7,7 +7,7 @@ import { RequireAdmin } from "@/components/RequireAdmin";
 import { callAdmin, fmtDate } from "@/lib/api";
 
 type Detail = {
-  client: { id: string; full_name: string; phone: string | null; email: string | null; city: string | null; created_at: string; advisor_id: string | null; consumer_user_id: string | null };
+  client: { id: string | null; key: string; full_name: string | null; phone: string | null; email: string | null; city: string | null; created_at: string | null; advisor: { id: string; display_name: string } | null; consumer_user_id: string | null };
   policies: { id: string; insurer: string | null; plan_name: string | null; policy_number: string | null; sub_type: string | null; status: string | null; sum_assured: number | null; premium_amount: number | null; created_at: string }[];
   reports: { id: string; headline: string | null; created_at: string }[];
   advisors_contacted: { id: string; status: string; created_at: string; current: boolean; advisor: { id: string; display_name: string; listing_status: string } | null }[];
@@ -20,14 +20,14 @@ type Detail = {
 const mask = (p: string | null) => (p ? `••••••${p.slice(-4)}` : "—");
 
 export default function ClientDetailPage() {
-  const { id } = useParams<{ id: string }>();
+  const { id: key } = useParams<{ id: string }>();
   const [d, setD] = useState<Detail | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
-    callAdmin<Detail>({ action: "client_detail", client_id: id }).then(setD).catch((e) => setError(e.message));
-  }, [id]);
+    callAdmin<Detail>({ action: "client_detail", key }).then(setD).catch((e) => setError(e.message));
+  }, [key]);
 
   return (
     <RequireAdmin>
@@ -35,7 +35,7 @@ export default function ClientDetailPage() {
       {!d && !error && <p className="muted">Loading…</p>}
       {d && (
         <>
-          <h1>{d.client.full_name}</h1>
+          <h1>{d.client.full_name ?? "No name"}</h1>
           <div className="grid grid-2">
             <div className="card">
               <div className="panel-title">Details</div>

@@ -111,7 +111,7 @@ export default function AdvisorDetailPage() {
               <tbody>
                 {d.clients.map((c) => (
                   <tr key={c.id}>
-                    <td><Link href={`/clients/${c.id}`}>{c.full_name}</Link></td>
+                    <td><Link href={`/clients/client-${c.id}`}>{c.full_name}</Link></td>
                     <td>{c.phone ?? "—"}</td>
                     <td>{fmtDate(c.created_at)}</td>
                   </tr>

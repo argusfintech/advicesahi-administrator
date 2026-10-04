@@ -7,7 +7,7 @@ export type AdminAction =
   | { action: "advisors_list" }
   | { action: "advisor_detail"; advisor_id: string }
   | { action: "clients_list"; search?: string }
-  | { action: "client_detail"; client_id: string }
+  | { action: "client_detail"; key: string }
   | { action: "reports_list" }
   | { action: "report_detail"; report_id: string }
   | { action: "tickets_list" }
