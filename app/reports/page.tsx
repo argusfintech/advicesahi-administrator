@@ -30,7 +30,7 @@ export default function ReportsPage() {
           <tbody>
             {rows.map((r) => (
               <tr key={r.id}>
-                <td>{r.client_name ?? "—"}</td>
+                <td>{r.client_name ?? (r.client_phone ? `No name · ${r.client_phone}` : "—")}</td>
                 <td><Link href={`/reports/${r.id}`}>{r.headline ?? "Report"}</Link></td>
                 <td>{fmtDate(r.created_at)}</td>
               </tr>
