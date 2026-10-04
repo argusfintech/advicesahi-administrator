@@ -9,7 +9,7 @@ import { callAdmin, fmtDate } from "@/lib/api";
 type Section = {
   title: string; insurer: string | null; sub_type: string | null; status: string | null;
   sum_assured: number | null; premium_amount: number | null; grade: string | null;
-  projected_irr: number | null; guaranteed_irr: number | null; projected_label: string | null;
+  projected_irr: number | null; projected_maturity: number | null; guaranteed_maturity: number | null; projected_label: string | null;
   good: string[]; watch: string[]; basis: string | null; policy_id: string | null;
 };
 
@@ -90,9 +90,10 @@ export default function ReportDetailPage() {
                 <div><div className="stat-label">Premium</div><div>{rupees(s.premium_amount)}</div></div>
                 <div><div className="stat-label">Projected return</div><div>{pct(s.projected_irr)}</div></div>
               </div>
-              {s.guaranteed_irr != null && (
-                <p className="muted" style={{ marginTop: 8 }}>Guaranteed (minimum): {pct(s.guaranteed_irr)}</p>
-              )}
+              <div className="grid grid-2" style={{ marginTop: 8 }}>
+                <div><div className="stat-label">Maturity (Guaranteed)</div><div>{rupees(s.guaranteed_maturity)}</div></div>
+                <div><div className="stat-label">Projected maturity</div><div>{rupees(s.projected_maturity)}</div></div>
+              </div>
               {s.projected_label && <p className="muted">{s.projected_label}</p>}
               {s.good.length > 0 && <p style={{ color: "var(--good)", marginTop: 8 }}>{s.good.join(" ")}</p>}
               {s.watch.length > 0 && <p style={{ color: "var(--warn)" }}>{s.watch.join(" ")}</p>}
