@@ -10,6 +10,8 @@ export type AdminAction =
   | { action: "client_detail"; client_id: string }
   | { action: "reports_list" }
   | { action: "report_detail"; report_id: string }
+  | { action: "tickets_list" }
+  | { action: "policy_import_issues_list" }
   | { action: "subscription_assign"; advisor_id: string; tier: "starter" | "pro" | "elite"; reason: string }
   | { action: "subscription_cancel"; subscription_id: string; reason: string }
   | { action: "addon_set"; subscription_id: string; lead_topup_credits: number; reason: string };
