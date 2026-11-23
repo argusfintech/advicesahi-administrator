@@ -10,7 +10,7 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value:
       "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; " +
-      "img-src 'self' data:; connect-src 'self' https://rrbmjiilxlkspsnhbpve.supabase.co; " +
+      "img-src 'self' data: https://rrbmjiilxlkspsnhbpve.supabase.co; connect-src 'self' https://rrbmjiilxlkspsnhbpve.supabase.co; " +
       "frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
   },
 ];

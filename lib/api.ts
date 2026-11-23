@@ -14,7 +14,10 @@ export type AdminAction =
   | { action: "policy_import_issues_list" }
   | { action: "subscription_assign"; advisor_id: string; tier: "starter" | "pro" | "elite"; reason: string }
   | { action: "subscription_cancel"; subscription_id: string; reason: string }
-  | { action: "addon_set"; subscription_id: string; lead_topup_credits: number; reason: string };
+  | { action: "addon_set"; subscription_id: string; lead_topup_credits: number; reason: string }
+  | { action: "incidents_list" }
+  | { action: "incident_log"; summary: string; affected_table?: string; affected_principal_count?: number }
+  | { action: "incident_update"; incident_id: string; status?: "open" | "contained" | "closed"; board_notified?: boolean; principals_notified?: boolean };
 
 /** Every admin call goes through the admin-api function, which re-checks
  *  the admin list and password-based sign-in on the server. */

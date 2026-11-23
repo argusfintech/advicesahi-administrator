@@ -30,6 +30,7 @@ export function Nav() {
       <Link href="/advisors">Advisors</Link>
       <Link href="/clients">Clients</Link>
       <Link href="/reports">Reports</Link>
+      <Link href="/incidents">Incidents</Link>
       <button onClick={signOut}>Sign out</button>
     </nav>
   );

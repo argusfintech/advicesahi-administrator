@@ -9,7 +9,7 @@ import { callAdmin, fmtDate } from "@/lib/api";
 type Sub = { id: string; tier: string; status: string; lead_topup_credits: number; created_at: string };
 type Detail = {
   advisor: {
-    id: string; display_name: string; city: string | null; category: string; listing_status: string;
+    id: string; display_name: string; photo_signed_url: string | null; city: string | null; category: string; listing_status: string;
     irdai_license_no: string | null; arn_no: string | null; bio: string | null; phone: string | null; created_at: string;
   };
   subscriptions: Sub[];
@@ -47,7 +47,22 @@ export default function AdvisorDetailPage() {
       {!d && !error && <p className="muted">Loading…</p>}
       {d && (
         <>
-          <h1>{d.advisor.display_name}</h1>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 8 }}>
+            {d.advisor.photo_signed_url ? (
+              // eslint-disable-next-line @next/next/no-img-element -- signed URL, not a local asset Next can optimize
+              <img src={d.advisor.photo_signed_url} alt={d.advisor.display_name}
+                style={{ width: 72, height: 72, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
+            ) : (
+              <span style={{
+                width: 72, height: 72, borderRadius: "50%", flexShrink: 0, display: "inline-flex",
+                alignItems: "center", justifyContent: "center", background: "var(--navy)", color: "#fff",
+                fontSize: 28, fontWeight: 600,
+              }}>
+                {(d.advisor.display_name.trim()[0] ?? "?").toUpperCase()}
+              </span>
+            )}
+            <h1 style={{ margin: 0 }}>{d.advisor.display_name}</h1>
+          </div>
           <div className="grid grid-2">
             <div className="card">
               <div className="panel-title">Profile</div>
