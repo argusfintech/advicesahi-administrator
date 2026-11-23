@@ -20,16 +20,19 @@ mandatory.
 
 ```
 Browser (admin UI)
-  -> sign in with phone + password (Supabase Auth, staging project)
+  -> sign in with phone + SMS code (admin-otp: code sent only to numbers in
+     admin_users; verify_gate locks out after 5 tries / 15 min)
   -> every call: POST admin-api with the user's access token
-Admin-api (edge function, staging project)
+Admin-api (edge function, project rrbmjiilxlkspsnhbpve = prod)
   -> 1. valid session?
   -> 2. user in admin_users?  (deny by default)
-  -> 3. session created with a password? (rejects OTP sessions)
-  -> 4. rate limit
-  -> 5. typed action, zod-validated input
-  -> 6. reads/writes with the server's privileged key, then an audit row
+  -> 3. rate limit
+  -> 4. typed action, zod-validated input
+  -> 5. reads/writes with the server's privileged key, then an audit row
 ```
+
+Note: `rrbmjiilxlkspsnhbpve` is now named advicesahi-prod. It is the live
+production project, not staging.
 
 ## Main features
 
@@ -56,7 +59,9 @@ Admin-api (edge function, staging project)
 
 - Admin rights come only from the `admin_users` list in the staging project. Account type confers nothing.
 - The browser never holds a database service key. Only `admin-api` does.
-- Sign-in is phone + password. OTP sessions are refused by the server.
+- Sign-in is phone + SMS code (founder decision 2026-11-10, replacing phone +
+  password). reCAPTCHA and MFA step-up were built, then paused the same day;
+  `admin-login-captcha` is still deployed if they come back.
 - Every read of client or advisor data writes an `admin_audit_log` row.
 - Every change requires a written reason (5 or more characters), stored in the audit log.
 - Changes never delete records. Cancelling sets a status.
@@ -83,5 +88,16 @@ npm run dev                  # http://localhost:3000
 
 ## Status
 
-- Built: login, dashboard, advisors (list, detail, subscription actions), clients (list, detail), reports (list, detail), and the security headers.
-- Not yet built: Vercel project and `admin.advicesahi.com` DNS, the access gate in front of the host, and the external penetration test before real data is used.
+- Built: login, dashboard, advisors (list, detail, subscription actions, photos), clients (list, detail), reports (list, detail), security incidents, and the security headers.
+- **Live since 2026-11-23** at `https://admin.advicesahi.com` (Vercel project
+  `advicesahi-administrator`, team argusfintechs-projects, deploys from
+  `main`). Hostinger DNS: CNAME `admin` → `1463912779b9f0a6.vercel-dns-016.com`
+  plus a `_vercel` TXT verification record. Env vars: `NEXT_PUBLIC_SUPABASE_URL`
+  (prod + preview), `NEXT_PUBLIC_SUPABASE_ANON_KEY` (prod). `vercel.json` pins
+  the framework to Next.js; the project's preset had been "Other", which is
+  why every deploy since 2026-10-05 failed. The URL env var was also an invalid
+  value until 2026-11-23.
+- `advicesahi-administrator.vercel.app` also serves the UI publicly, but
+  admin-api and admin-otp only accept the two allowlisted origins, so login
+  can't work there.
+- Not yet built: the access gate in front of the host, and the external penetration test before real data is used.
