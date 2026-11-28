@@ -47,6 +47,7 @@ production project, not staging.
    - Cancel a subscription. The record is kept with status `cancelled` (mandatory reason).
 4. **Clients:** searchable list (name, phone, date joined). Detail shows contact details (phone masked by default), reports, policies, advisors contacted (current and past), support tickets, and policy import tickets.
 5. **Reports:** list and detail with the report content.
+6. **IRDAI approvals** (`/irdai`, added 2026-11-28): advisors with an IRDAI number, pending first, licence document link when uploaded, phones masked. Approve (with a note) sets `advisor_profiles.verified`. Changing the number later resets it (DB trigger, mobile migration 0098). Kanchan is emailed whenever a number is added or changed.
 
 ## Definitions (confirmed by founder)
 
