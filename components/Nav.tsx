@@ -28,6 +28,7 @@ export function Nav() {
       <strong>AdviceSahi Administrator</strong>
       <Link href="/dashboard">Dashboard</Link>
       <Link href="/advisors">Advisors</Link>
+      <Link href="/irdai">IRDAI approvals</Link>
       <Link href="/clients">Clients</Link>
       <Link href="/reports">Reports</Link>
       <Link href="/incidents">Incidents</Link>

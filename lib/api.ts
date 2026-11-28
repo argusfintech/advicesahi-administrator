@@ -15,6 +15,8 @@ export type AdminAction =
   | { action: "subscription_assign"; advisor_id: string; tier: "starter" | "pro" | "elite"; reason: string }
   | { action: "subscription_cancel"; subscription_id: string; reason: string }
   | { action: "addon_set"; subscription_id: string; lead_topup_credits: number; reason: string }
+  | { action: "irdai_list" }
+  | { action: "irdai_approve"; advisor_id: string; reason: string }
   | { action: "incidents_list" }
   | { action: "incident_log"; summary: string; affected_table?: string; affected_principal_count?: number }
   | { action: "incident_update"; incident_id: string; status?: "open" | "contained" | "closed"; board_notified?: boolean; principals_notified?: boolean };
